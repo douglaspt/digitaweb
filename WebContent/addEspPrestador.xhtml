@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions">
+
+<ui:composition template="_template.xhtml">
+	<ui:define name="titulo">Adicionar Especialidade para o Prestador</ui:define>
+	<ui:define name="conteudo">
+
+		<h:form id="formPesquisa">
+			<p:messages id="messages" />
+			<p:panel id="busca" header="Especialidades"
+				style="margin-bottom:20px">
+				<h:panelGrid columns="2">
+					<p:selectOneListbox id="basic"
+						value="#{especialidadePrestadorBean.idEspecialidade}"
+						required="true"
+						requiredMessage="Uma Especialidade deve ser Selecionada" 
+						style="width:280px">
+						<f:selectItems
+							value="#{especialidadePrestadorBean.especialidades}" var="esp"
+							itemLabel="#{esp.id} - #{esp.descricao}" itemValue="#{esp.id}" />
+					</p:selectOneListbox>
+
+				</h:panelGrid>
+			</p:panel>
+
+			<p:commandButton value="Gravar"
+				action="#{especialidadePrestadorBean.gravar}" process="@form"
+				update="@form :formLista">
+			</p:commandButton>
+
+		</h:form>
+		<br />
+		<h:form id="formLista">
+			<p:dataTable var="especialidade"
+				value="#{especialidadePrestadorBean.especialidadesPrestador}"
+				id="tabela">
+				<f:facet name="header">Especialidades</f:facet>
+
+				<p:column headerText="ID. Esp.">
+					<h:outputText value="#{especialidade.especialidade.id}" />
+				</p:column>
+
+				<p:column headerText="Nome">
+					<h:outputText value="#{especialidade.especialidade.descricao}" />
+				</p:column>
+
+
+
+				<p:column headerText="Remover">
+					<p:commandButton icon="fa fa-fw fa-remove"
+						action="#{especialidadePrestadorBean.remover(especialidade)}"
+						update="formLista" />
+				</p:column>
+
+			</p:dataTable>
+		</h:form>
+
+
+
+	</ui:define>
+	<ui:define name="texto" />
+
+</ui:composition>
+</html>

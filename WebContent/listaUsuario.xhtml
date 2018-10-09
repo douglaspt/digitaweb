@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions">
+
+<ui:composition template="_template.xhtml">
+	<ui:define name="titulo">Listagem de Usuários</ui:define>
+	<ui:define name="conteudo">
+
+		<h:form id="formUsuarios">
+			<p:dataTable var="usuario" value="#{usuarioBean.listar()}"
+				paginator="true" rows="40">
+				<f:facet name="header">Usuários Cadastrados</f:facet>
+
+				<p:column headerText="Login" sortBy="#{usuario.login}">
+					<h:outputText value="#{usuario.login}" />
+				</p:column>
+
+				<p:column headerText="Nome" sortBy="#{usuario.nome}">
+					<h:outputText value="#{usuario.nome}" />
+				</p:column>
+
+				<p:column headerText="ID Prestador">
+					<h:outputText value="#{usuario.prestador.id}" />
+				</p:column>
+				<p:column headerText="Prestador">
+					<h:outputText value="#{usuario.prestador.nome}" />
+				</p:column>
+
+				<p:column headerText="Nº Conselho">
+					<h:outputText value="#{usuario.profissional.id}" />
+				</p:column>
+
+				<p:column headerText="Telefone">
+					<h:outputText value="#{usuario.fone}" />
+				</p:column>
+
+
+				<p:column headerText="E-mail" sortBy="#{usuario.email}">
+					<h:outputText value="#{usuario.email}" />
+				</p:column>
+
+				<p:column headerText="Remover">
+					<p:commandButton icon="fa fa-fw fa-remove"
+						action="#{usuarioBean.remover(usuario)}" update="@form">
+						
+						<p:confirm message="Deseja remover o usuário: #{usuario.nome}" icon="ui-icon-alert" />
+					</p:commandButton>	
+					<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+						<p:commandButton value="Sim" type="button"
+							styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+						<p:commandButton value="Não" type="button"
+							styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+					</p:confirmDialog>
+				</p:column>
+
+
+				<f:facet name="footer">
+        			Total de Registros: #{fn:length(usuarioBean.usuarios)}.
+    			</f:facet>
+			</p:dataTable>
+		</h:form>
+
+	</ui:define>
+	<ui:define name="texto" />
+
+</ui:composition>
+</html>

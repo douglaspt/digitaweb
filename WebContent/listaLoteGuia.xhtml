@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions">
+
+<ui:composition template="_template.xhtml">
+	<ui:define name="titulo">Listagem de Lotes</ui:define>
+
+	<ui:define name="conteudo">
+
+		<h:form id="formPesquisa">
+			<p:messages id="messages" />
+
+			<p:panel id="busca" header="Busca por Mês / Ano"
+				style="margin-bottom:20px">
+				<h:panelGrid columns="4" cellpadding="10">
+
+					<p:outputLabel value="Mês de Referencia:" for="mes" />
+					<p:selectOneMenu value="#{loteGuiaBean.mes}" id="mes"
+						style="width:125px">
+						<f:selectItems value="#{loteGuiaBean.meses}" var="mes"
+							itemLabel="#{mes}" itemValue="#{mes.numMes}" />
+					</p:selectOneMenu>
+					<p:outputLabel value="Ano:" for="ano" />
+					<p:inputText id="ano" value="#{loteGuiaBean.ano}" required="true"
+						requiredMessage="Ano deve ser Preenchido">
+						<f:validateLength minimum="4" maximum="4" />
+						<p:keyFilter for="ano" mask="num" />
+					</p:inputText>
+
+					<p:commandButton icon="fa fa-fw fa-search" value="Pesquisar"
+						action="#{loteGuiaBean.atualizar}" process="@form"
+						update="@form formGuias">
+					</p:commandButton>
+				</h:panelGrid>
+			</p:panel>
+
+		</h:form>
+		<br></br>
+		<h:form id="formGuias">
+			<p:dataTable var="loteGuia" value="#{loteGuiaBean.guias}"
+				id="tbl">
+				<f:facet name="header">Lotes de Guias</f:facet>
+				
+				<p:column headerText="Id. Lote">
+					<h:outputText value="#{loteGuia.id}" />
+				</p:column>
+
+				<p:column headerText="Data de Fechamento">
+					<h:outputText value="#{loteGuia.dataFechamento.time}">
+						<f:convertDateTime pattern="dd/MM/yyyy"
+							timeZone="America/Sao_Paulo" />
+					</h:outputText>
+				</p:column>
+
+				<p:column headerText="Id. Prestador">
+					<h:outputText value="#{loteGuia.prestador.id}" />
+				</p:column>
+
+				<p:column headerText="Prestador">
+					<h:outputText value="#{loteGuia.prestador.nome}" />
+				</p:column>
+
+				<p:column headerText="Status da Conta">
+					<h:outputText value="#{loteGuia.status.descricao}" />
+				</p:column>
+				
+				<p:column headerText="Remover">
+					<p:commandButton icon="fa fa-fw fa-remove"
+						action="#{loteGuiaBean.remover(loteGuia)}" update="@form">
+					</p:commandButton>
+				</p:column>
+				
+				<f:facet name="footer">
+        			Total de Registros: #{fn:length(loteGuiaBean.guias)}.
+    			</f:facet>
+
+			</p:dataTable>
+		</h:form>
+
+	</ui:define>
+	<ui:define name="texto" />
+
+</ui:composition>
+</html>

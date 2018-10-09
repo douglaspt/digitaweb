@@ -1,0 +1,425 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions">
+
+<ui:composition template="_template.xhtml">
+	<ui:define name="titulo">Adicionar SADT</ui:define>
+	<ui:define name="conteudo">
+		<h:form id="formSADT">
+			<p:messages id="messages" />
+			<p:panel id="busca" header="Guia de sadt" style="margin-bottom:20px">
+				<h:panelGrid columns="3">
+
+					<h:outputText value="Mês/Ano de Referência:"
+						style="font-size:16px; font-weight: bold" />
+					<h:outputText value="#{sADTBean.referencia.time}"
+						style="font-size:16px; font-weight: bold">
+						<f:convertDateTime pattern="MMMM/yyyy"
+							timeZone="America/Sao_Paulo" />
+					</h:outputText>
+					<br></br>
+					<p:outputLabel value="Data de Atendimento" for="dataAtendimento" />
+					<p:calendar id="dataAtendimento" locale="pt"
+						value="#{sADTBean.sadt.dataAtendimento.time}" pattern="dd/MM/yyyy"
+						timeZone="America/Sao_Paulo" mask="true" required="true"
+						requiredMessage="Data de Atendimento deve ser Preenchida"
+						disabled="#{sADTBean.camposOnOFF}">
+					</p:calendar>
+					<br />
+
+					<p:outputLabel value="Nº Carteira:" for="carteira" />
+					<p:inputText id="carteira" value="#{sADTBean.sadt.carteira}"
+						required="true" requiredMessage="Nº Carteira deve ser Preenchida"
+						validatorMessage="Nº Carteira deve possuir 10 caracteres"
+						readonly="#{sADTBean.camposOnOFF}">
+						<f:validateLength minimum="10" maximum="10" />
+						<p:keyFilter for="carteira" mask="num" />
+					</p:inputText>
+					<p:outputLabel
+						value="Somente Números (10 Posições, sem traços ou pontos)" />
+
+
+					<p:outputLabel value="Plano:" for="plano"
+						rendered="#{sADTBean.camposOnOFF}" />
+					<p:inputText id="plano" value="#{sADTBean.beneficiario.plano}"
+						size="40" rendered="#{sADTBean.camposOnOFF}"
+						readonly="#{sADTBean.camposOnOFF}" />
+					<p:outputLabel rendered="#{sADTBean.camposOnOFF}" />
+
+					<p:outputLabel value="Situação:" for="situacao"
+						rendered="#{sADTBean.camposOnOFF}" />
+					<p:inputText id="situacao"
+						value="#{sADTBean.beneficiario.situacao}" size="40"
+						rendered="#{sADTBean.camposOnOFF}"
+						readonly="#{sADTBean.camposOnOFF}" />
+					<p:outputLabel rendered="#{sADTBean.camposOnOFF}" />
+
+					<p:outputLabel value="Nome:" for="nome"
+						rendered="#{sADTBean.camposOnOFF}" />
+					<p:inputText id="nome" value="#{sADTBean.sadt.nome}" size="50"
+						rendered="#{sADTBean.camposOnOFF}"
+						readonly="#{sADTBean.camposOnOFF}" />
+					<p:outputLabel rendered="#{sADTBean.camposOnOFF}" />
+
+					<p:outputLabel value="Conselho Profissional:" for="conselho" />
+					<p:inputText id="conselho"
+						value="#{sADTBean.sadt.conselhoProfissional}" required="true"
+						requiredMessage="Conselho Profissional deve ser Preenchido"
+						readonly="#{sADTBean.camposOnOFF}" />
+					<p:outputLabel value="CRM, CRO, CRP, ..." />
+
+
+					<p:outputLabel value="Num. no Conselho:" for="nconselho" />
+					<p:inputText id="nconselho" value="#{sADTBean.idProfissional}"
+						required="true"
+						requiredMessage="Nº no Conselho deve ser Preenchido"
+						readonly="#{sADTBean.camposOnOFF}" />
+					<p:outputLabel value="Somente Números (Nº do CRM, etc)" />
+
+					<p:outputLabel value="UF Conselho:" for="uf" />
+					<p:selectOneMenu value="#{sADTBean.sadt.uf}" id="uf" effect="fade"
+						disabled="#{sADTBean.camposOnOFF}">
+						<f:selectItems value="#{sADTBean.estados}" var="uf"
+							itemLabel="#{uf}" itemValue="#{uf}" />
+					</p:selectOneMenu>
+					<p:outputLabel />
+
+					<p:outputLabel value="Nome do Profissional:" for="nomeprof"
+						rendered="#{sADTBean.camposOnOFF}" />
+					<p:inputText id="nomeprof" value="#{sADTBean.profissional.nome}"
+						size="40" rendered="#{sADTBean.camposOnOFF}"
+						readonly="#{sADTBean.camposOnOFF}" />
+					<p:outputLabel rendered="#{sADTBean.camposOnOFF}" />
+
+					<p:outputLabel value="Tipo de Atendimento: " />
+					<p:selectOneMenu value="#{sADTBean.idTipoAtendimento}"
+						effect="fade" disabled="#{sADTBean.camposOnOFF}">
+						<f:selectItems value="#{sADTBean.tipoAtendimentos}" var="ta"
+							itemValue="#{ta.id}" itemLabel="#{ta.descricao}" />
+					</p:selectOneMenu>
+					<p:outputLabel value="*" />
+
+					<p:outputLabel value="Tipo de Saída: " />
+					<p:selectOneMenu value="#{sADTBean.idTipoSaida}" effect="fade"
+						disabled="#{sADTBean.camposOnOFF}">
+						<f:selectItems value="#{sADTBean.tipoSaidas}" var="tipoSaida"
+							itemValue="#{tipoSaida.id}" itemLabel="#{tipoSaida.descricao}" />
+					</p:selectOneMenu>
+					<p:outputLabel value="*" />
+
+					<p:outputLabel value="Nº Autorização" for="autorizacao" />
+					<p:inputText id="autorizacao" decimalSeparator=","
+						thousandSeparator="." value="#{sADTBean.sadt.autorizacao}"
+						required="true"
+						requiredMessage="Nº Autorização deve ser Preenchida"
+						readonly="#{sADTBean.camposOnOFF}">
+						<p:keyFilter for="autorizacao" mask="num" />
+					</p:inputText>
+					<p:outputLabel value="Somente Números sem ponto, vírgula ou sinais" />
+
+					<p:outputLabel value="CID:" for="cid" />
+					<p:inputText id="cid" value="#{sADTBean.idCid}" required="true"
+						requiredMessage="CID Obrigatório"
+						readonly="#{sADTBean.camposOnOFF}" />
+					<p:outputLabel value="Código CID10 do diagnóstico principal" />
+
+
+				</h:panelGrid>
+				<br></br>
+				<p:commandButton value="Voltar" action="#{sADTBean.voltar}"
+					process="@form"
+					update="@form formListaItemSADT formItem formOutrasDespesas formListaOutrasDespesas formConfirmar"
+					disabled="#{sADTBean.loteGuia.status.id > 0}"
+					rendered="#{(sADTBean.camposOnOFF)}">
+				</p:commandButton>
+				<p:commandButton value="Avançar" action="#{sADTBean.avancar}"
+					process="@form formItem"
+					update="@form formListaItemSADT formItem formOutrasDespesas formListaOutrasDespesas formConfirmar"
+					disabled="#{sADTBean.loteGuia.status.id > 0}"
+					rendered="#{!(sADTBean.camposOnOFF)}">
+				</p:commandButton>
+
+			</p:panel>
+		</h:form>
+
+		<!--    ************   Item SADT *********************   -->
+
+		<h:form id="formListaItemSADT">
+			<p:dataTable var="listaItem" value="#{sADTBean.listaItemSADT}"
+				rendered="#{sADTBean.tabelaONOFF}">
+				<f:facet name="header">SADTs Efetuadas</f:facet>
+
+				<p:column headerText="Data de Realização">
+					<h:outputText value="#{listaItem.dataRealizacao.time}">
+						<f:convertDateTime pattern="dd/MM/yyyy"
+							timeZone="America/Sao_Paulo" />
+					</h:outputText>
+				</p:column>
+
+
+				<p:column headerText="Cod. Item">
+					<h:outputText value="#{listaItem.item.id}" />
+				</p:column>
+
+				<p:column headerText="Descrição">
+					<h:outputText value="#{listaItem.item.nome}" />
+				</p:column>
+
+				<p:column headerText="Quantidade">
+					<h:outputText value="#{listaItem.quantidade}" />
+				</p:column>
+
+				<p:column headerText="Valor">
+					<h:outputText value="#{listaItem.valorDouble}">
+						<f:convertNumber currencyCode="BRL" type="currency" />
+					</h:outputText>
+				</p:column>
+
+				<p:column headerText="Remover">
+					<p:commandButton icon="fa fa-fw fa-remove"
+						action="#{sADTBean.removerItem(listaItem)}"
+						update="@form formListaItemSADT" />
+				</p:column>
+
+
+				<f:facet name="footer">
+        			Total de Registros: #{fn:length(sADTBean.listaItemSADT)}.
+    			</f:facet>
+			</p:dataTable>
+		</h:form>
+		<br></br>
+
+		<h:form id="formItem">
+			<p:messages id="messages" rendered="#{(sADTBean.camposOnOFF)}" />
+			<p:panel id="busca" header="Procedimentos e Exames Realizados"
+				style="margin-bottom:20px" rendered="#{(sADTBean.camposOnOFF)}">
+				<h:panelGrid columns="3">
+
+					<p:outputLabel value="Data de Realização:" for="dataRealizacao" />
+					<p:calendar id="dataRealizacao" locale="pt"
+						value="#{sADTBean.itemSADT.dataRealizacao.time}"
+						pattern="dd/MM/yyyy" timeZone="America/Sao_Paulo" mask="true"
+						required="true"
+						requiredMessage="Data de Realização deve ser Preenchida">
+					</p:calendar>
+					<br />
+
+
+					<p:outputLabel value="Tabela:" for="tabela" />
+					<p:selectOneMenu value="#{sADTBean.itemSADT.tabela}" id="tabela"
+						effect="fade">
+						<f:selectItems value="#{sADTBean.tabelas}" var="tabela"
+							itemLabel="#{tabela}" itemValue="#{tabela.id}" />
+					</p:selectOneMenu>
+					<p:outputLabel />
+
+
+					<p:outputLabel value="Cod. Item:" for="item" />
+					<p:inputText id="item" decimalSeparator="," thousandSeparator="."
+						value="#{sADTBean.idItemSADT}" required="true"
+						requiredMessage="Cod. Item deve ser Preenchido">
+						<p:keyFilter for="item" mask="num" />
+					</p:inputText>
+					<p:outputLabel value="Somente Números sem ponto, vírgula ou sinais" />
+
+					<p:outputLabel value="Quantidade:" for="qtde" />
+					<p:inputText id="qtde" decimalSeparator="," thousandSeparator="."
+						value="#{sADTBean.itemSADT.quantidade}" required="true"
+						requiredMessage="Quandidade deve ser Preenchida">
+						<p:keyFilter for="qtde" mask="num" />
+					</p:inputText>
+					<p:outputLabel value="Somente Números sem ponto, vírgula ou sinais" />
+
+					<p:outputLabel value="Via de Acesso:" for="via" />
+					<p:selectOneMenu value="#{sADTBean.itemSADT.viaAcesso}" id="via"
+						effect="fade">
+						<f:selectItems value="#{sADTBean.viaAcesso}" var="via"
+							itemLabel="#{via}" itemValue="#{via.sigla}" />
+					</p:selectOneMenu>
+					<p:outputLabel />
+
+					<p:outputLabel value="Técnica Utilizada:" for="tecnica" />
+					<p:selectOneMenu value="#{sADTBean.itemSADT.tecnicaUtilizada}"
+						id="tecnica" effect="fade">
+						<f:selectItems value="#{sADTBean.tecnica}" var="tecnica"
+							itemLabel="#{tecnica}" itemValue="#{tecnica.sigla}" />
+					</p:selectOneMenu>
+					<p:outputLabel />
+
+					<p:outputLabel value="Percentual" for="percentual" />
+					<p:inputText id="percentual" decimalSeparator=","
+						thousandSeparator="." value="#{sADTBean.itemSADT.percentual}"
+						required="true" requiredMessage="Percentual deve ser Preenchido">
+						<p:keyFilter for="percentual" mask="num" />
+					</p:inputText>
+					<p:outputLabel
+						value="Somente Números (% de redução/acréscimo no caso de cirurgia/radiologia múltipla)" />
+
+					<p:outputLabel value="Valor Total" for="valor" />
+					<p:inputNumber id="valor" value="#{sADTBean.itemSADT.valor}"
+						required="true" decimalSeparator="," thousandSeparator="."
+						requiredMessage="Valor Total deve ser Preenchido" />
+					<p:outputLabel
+						value="Somente Números separados por vírgula para casa decimal (Ex. 99999,99)" />
+
+
+				</h:panelGrid>
+				<br></br>
+				<p:commandButton value="Avançar" action="#{sADTBean.adicionaItem}"
+					process="formItem" update="formItem formListaItemSADT"
+					disabled="#{sADTBean.loteGuia.status.id > 0}">
+				</p:commandButton>
+
+			</p:panel>
+		</h:form>
+
+
+		<!-- ****************   Outras Despesas ************************************ -->
+
+		<h:form id="formListaOutrasDespesas">
+			<p:dataTable var="outrasDespesas"
+				value="#{sADTBean.listaOutrasDespesas}"
+				rendered="#{sADTBean.tabelaDespesaONOFF}">
+				<f:facet name="header">Outras Despesas Efetuadas</f:facet>
+
+				<p:column headerText="Data de Realização">
+					<h:outputText value="#{outrasDespesas.dataRealizacao.time}">
+						<f:convertDateTime pattern="dd/MM/yyyy"
+							timeZone="America/Sao_Paulo" />
+					</h:outputText>
+				</p:column>
+
+
+				<p:column headerText="Cod. Item">
+					<h:outputText value="#{outrasDespesas.idItem}" />
+				</p:column>
+
+				<p:column headerText="Descrição">
+					<h:outputText value="#{outrasDespesas.descricao}" />
+				</p:column>
+
+				<p:column headerText="Quantidade">
+					<h:outputText value="#{outrasDespesas.quantidade}" />
+				</p:column>
+
+				<p:column headerText="Valor">
+					<h:outputText value="#{outrasDespesas.valorDouble}">
+						<f:convertNumber currencyCode="BRL" type="currency" />
+					</h:outputText>
+				</p:column>
+
+				<p:column headerText="Remover">
+					<p:commandButton icon="fa fa-fw fa-remove"
+						action="#{sADTBean.removerOutrasDespesas(outrasDespesas)}"
+						update="formListaOutrasDespesas" />
+				</p:column>
+
+
+				<f:facet name="footer">
+        			Total de Registros: #{fn:length(sADTBean.listaOutrasDespesas)}.
+    			</f:facet>
+			</p:dataTable>
+		</h:form>
+		<br></br>
+
+		<h:form id="formOutrasDespesas">
+			<p:messages id="messages" rendered="#{(sADTBean.camposOnOFF)}" />
+			<p:panel id="busca" header="Outras Despesas Realizadas"
+				style="margin-bottom:20px" rendered="#{(sADTBean.camposOnOFF)}">
+				<h:panelGrid columns="3">
+
+					<p:outputLabel value="Data de Realização" for="dataRealizacao" />
+					<p:calendar id="dataRealizacao" locale="pt"
+						value="#{sADTBean.outrasDespesas.dataRealizacao.time}"
+						pattern="dd/MM/yyyy" timeZone="America/Sao_Paulo" mask="true"
+						required="true"
+						requiredMessage="Data de Realização deve ser Preenchida">
+					</p:calendar>
+					<br />
+
+					<p:outputLabel value="Despesa:" for="despesa" />
+					<p:selectOneMenu value="#{sADTBean.outrasDespesas.codigoDespesa}"
+						id="despesa" effect="fade">
+						<f:selectItems value="#{sADTBean.despesas}" var="despesa"
+							itemLabel="#{despesa}" itemValue="#{despesa.id}" />
+					</p:selectOneMenu>
+					<p:outputLabel />
+
+					<p:outputLabel value="Tabela:" for="tabela" />
+					<p:selectOneMenu value="#{sADTBean.outrasDespesas.tabela}"
+						id="tabela" effect="fade">
+						<f:selectItems value="#{sADTBean.tabelas}" var="tabela"
+							itemLabel="#{tabela}" itemValue="#{tabela.id}" />
+					</p:selectOneMenu>
+					<p:outputLabel />
+
+					<p:outputLabel value="Cod. Item" for="item" />
+					<p:inputText id="item" decimalSeparator="," thousandSeparator="."
+						value="#{sADTBean.outrasDespesas.idItem}" required="true"
+						requiredMessage="Cod. Item deve ser Preenchido">
+						<p:keyFilter for="item" mask="num" />
+					</p:inputText>
+					<p:outputLabel value="Somente Números sem ponto, vírgula ou sinais" />
+
+					<p:outputLabel value="Descrição" for="descricao" />
+					<p:inputText id="descricao" size="50"
+						value="#{sADTBean.outrasDespesas.descricao}" required="true"
+						requiredMessage="Descrição deve ser Preenchida">
+					</p:inputText>
+					<br></br>
+
+					<p:outputLabel value="Quantidade" for="qtde" />
+					<p:inputText id="qtde" decimalSeparator="," thousandSeparator="."
+						value="#{sADTBean.outrasDespesas.quantidade}" required="true"
+						requiredMessage="Quandidade deve ser Preenchida">
+						<p:keyFilter for="qtde" mask="num" />
+					</p:inputText>
+					<p:outputLabel value="Somente Números sem ponto, vírgula ou sinais" />
+
+					<p:outputLabel value="Percentual" for="percentual" />
+					<p:inputText id="percentual" decimalSeparator=","
+						thousandSeparator="."
+						value="#{sADTBean.outrasDespesas.percentual}" required="true"
+						requiredMessage="Percentual deve ser Preenchido">
+						<p:keyFilter for="percentual" mask="num" />
+					</p:inputText>
+					<p:outputLabel
+						value="Somente Números (% de redução/acréscimo no caso de cirurgia/radiologia múltipla)" />
+
+					<p:outputLabel value="Valor Total" for="valor" />
+					<p:inputNumber id="valor" value="#{sADTBean.outrasDespesas.valor}"
+						required="true" decimalSeparator="," thousandSeparator="."
+						requiredMessage="Valor Total deve ser Preenchido" />
+					<p:outputLabel
+						value="Somente Números separados por vírgula para casa decimal (Ex. 99999,99)" />
+
+
+				</h:panelGrid>
+				<br></br>
+				<p:commandButton value="Avançar"
+					action="#{sADTBean.adicionaOutrasDespesas}"
+					process="formOutrasDespesas"
+					update="formOutrasDespesas formListaOutrasDespesas"
+					disabled="#{sADTBean.loteGuia.status.id > 0}">
+				</p:commandButton>
+
+			</p:panel>
+		</h:form>
+		<h:form id="formConfirmar">
+			<p:commandButton value="Confirmar Guia"
+				action="#{sADTBean.confirmar}" rendered="#{(sADTBean.camposOnOFF)}"
+				update="@all" disabled="#{sADTBean.loteGuia.status.id > 0}">
+			</p:commandButton>
+
+		</h:form>
+
+	</ui:define>
+	<ui:define name="texto" />
+
+</ui:composition>
+</html>

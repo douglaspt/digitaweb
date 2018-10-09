@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="fechamento_subreport3" pageWidth="520" pageHeight="802" columnWidth="520" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="de18bdf1-b6db-4019-aa55-92e935d2fc43">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="idPrestador" class="java.lang.Integer"/>
+	<parameter name="dtEmissao" class="java.util.Date"/>
+	<parameter name="qtdeInternacao" class="java.lang.Integer"/>
+	<queryString>
+		<![CDATA[SELECT
+     sum(g.subTotal) AS valor,
+     g.`dtAtendimento_int` AS dataRealizacao,
+     g.`numCarteira_int` AS carteira,
+     g.`nomeBeneficiario_int` AS nome
+FROM
+     `vw_guiainternacao` g
+WHERE
+     g.cod_conveniado = $P{idPrestador}
+     and g.dtEmissao_int = $P{dtEmissao}
+GROUP BY
+     g.dtAtendimento_int,
+     g.numCarteira_int,
+     g.nomeBeneficiario_int
+ORDER BY
+     g.dtAtendimento_int ASC,
+     g.nomeBeneficiario_int ASC]]>
+	</queryString>
+	<field name="valor" class="java.lang.Double"/>
+	<field name="dataRealizacao" class="java.sql.Date"/>
+	<field name="carteira" class="java.lang.String"/>
+	<field name="nome" class="java.lang.String"/>
+	<variable name="subTotal_1" class="java.lang.Double" calculation="Sum">
+		<variableExpression><![CDATA[$F{valor}]]></variableExpression>
+	</variable>
+	<variable name="valor_1" class="java.lang.Double" calculation="Sum">
+		<variableExpression><![CDATA[$F{valor}]]></variableExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band height="20" splitType="Stretch">
+			<printWhenExpression><![CDATA[$P{qtdeInternacao} > 0]]></printWhenExpression>
+			<staticText>
+				<reportElement uuid="739111c0-a4a0-4e28-b046-7b36f3810884" mode="Opaque" x="0" y="0" width="520" height="20" backcolor="#E6E6E6"/>
+				<textElement textAlignment="Center">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[INTERNAÇÃO]]></text>
+			</staticText>
+			<line>
+				<reportElement uuid="d09aed95-59ae-4154-882a-092969999062" x="0" y="0" width="520" height="1"/>
+			</line>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="20" splitType="Stretch">
+			<printWhenExpression><![CDATA[$P{qtdeInternacao} > 0]]></printWhenExpression>
+			<staticText>
+				<reportElement uuid="ad6de36f-b8e9-4365-ad9d-b6aae9dabaf0" mode="Opaque" x="0" y="0" width="90" height="20" forecolor="#006699" backcolor="#E6E6E6"/>
+				<textElement>
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[DATA]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="91bd5537-8b4d-42c2-a23f-422a49efcf79" mode="Opaque" x="90" y="0" width="80" height="20" forecolor="#006699" backcolor="#E6E6E6"/>
+				<textElement>
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[CARTEIRINHA]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="b2611f0c-308d-4e00-b5e1-e56d64bf8fd6" mode="Opaque" x="170" y="0" width="260" height="20" forecolor="#006699" backcolor="#E6E6E6"/>
+				<textElement>
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[NOME]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="b2daffc8-6a49-40fb-942b-53b087078616" mode="Opaque" x="430" y="0" width="90" height="20" forecolor="#006699" backcolor="#E6E6E6"/>
+				<textElement textAlignment="Right">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[VALOR]]></text>
+			</staticText>
+			<line>
+				<reportElement uuid="7f94d1b1-64b8-4770-a051-60c2c9ef2feb" x="0" y="19" width="520" height="1"/>
+			</line>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="20" splitType="Stretch">
+			<printWhenExpression><![CDATA[$P{qtdeInternacao} > 0]]></printWhenExpression>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement uuid="452bb658-8fc0-4635-be67-be70b9ce3462" x="0" y="0" width="90" height="18"/>
+				<textElement>
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{dataRealizacao}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="134beaf6-22f8-40af-930a-72c6bd21e1f7" x="90" y="0" width="80" height="18"/>
+				<textElement>
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{carteira}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="a566a6d5-9b35-4783-a088-221e2f50ee83" x="170" y="0" width="260" height="18"/>
+				<textElement>
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nome}]]></textFieldExpression>
+			</textField>
+			<textField pattern="¤ #,##0.00">
+				<reportElement uuid="8087b8b9-92ad-4d73-a722-c10ad7d8712e" x="430" y="0" width="90" height="18"/>
+				<textElement textAlignment="Right">
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{valor}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement uuid="fe1d0d62-c694-46ea-8beb-82b55d27191c" x="0" y="19" width="520" height="1"/>
+			</line>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="35" splitType="Stretch">
+			<printWhenExpression><![CDATA[$P{qtdeInternacao} > 0]]></printWhenExpression>
+			<textField pattern="¤ #,##0.00">
+				<reportElement uuid="0437a835-6c10-428a-b6f4-ce359ec653d8" x="430" y="8" width="90" height="18"/>
+				<textElement textAlignment="Right">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{valor_1}]]></textFieldExpression>
+			</textField>
+		</band>
+	</summary>
+</jasperReport>

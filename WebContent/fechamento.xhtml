@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions">
+
+<ui:composition template="_template.xhtml">
+
+	<ui:define name="conteudo">
+		<br></br>
+		<br></br>
+		<h:form id="formTotais">
+			<p:messages id="messages" />
+			<p:panel id="status"
+				header="Fechamento do Lote de Guias para envio ao IMASF"
+				style="align=center">
+				<h:panelGrid columns="2" cellpadding="5">
+					<h:outputText value="Mês/Ano de Referência:"
+						style="font-weight:bold; font-size:14px" />
+					<h:outputText value="#{referencia.time}"
+						style="font-weight:bold; font-size:14px">
+						<f:convertDateTime pattern="MMMM/yyyy"
+							timeZone="America/Sao_Paulo" />
+					</h:outputText>
+					<h:outputText value="Total de Atendimentos:" />
+					<h:outputText value="#{fechamentoBean.qtdeConsulta}" />
+					<h:outputText value="Valor Total das Consultas:" />
+					<h:outputText value="#{fechamentoBean.totalConsulta}">
+						<f:convertNumber type="currency" locale="pt_BR" />
+					</h:outputText>
+					<h:outputText value="Total de Atendimentos:" />
+					<h:outputText value="#{fechamentoBean.qtdeSadt}" />
+					<h:outputText value="Valor Total dos Atendimentos em SADT" />
+					<h:outputText value="#{fechamentoBean.totalSadt}">
+						<f:convertNumber type="currency" locale="pt_BR" />
+					</h:outputText>
+					<h:outputText value="Total de Atendimentos:" />
+					<h:outputText value="#{fechamentoBean.qtdeInternacao}" />
+					<h:outputText value="Valor Total dos Atendimentos de Internação" />
+					<h:outputText value="#{fechamentoBean.totalInternacao}">
+						<f:convertNumber type="currency" locale="pt_BR" />
+					</h:outputText>
+					<h:outputText
+						value="Atenção ! Ao confirmar este lote de guias será enviado ao IMASF e não poderá mais ser alterado !"
+						style="font-size:14px; font-weight: bold; color: red"/>
+					<h:outputText value="" />
+
+					<p:commandButton icon="fa fa-fw fa-check" value="Confirmar"
+						action="#{fechamentoBean.confirmar}" process="formTotais"
+						update="formTotais formConsultas formSADT formInternacao"
+						rendered="#{!(fechamentoBean.loteGuia.status.id > 0)}">
+					</p:commandButton>
+					<p:commandButton icon="fa fa-fw fa-print" value="Imprimir"
+						action="#{fechamentoBean.imprimir}" process="@form" update="@form"
+						ajax="false" onclick="this.form.target='_blank'"
+						rendered="#{(fechamentoBean.loteGuia.status.id > 0)}">
+					</p:commandButton>
+
+				</h:panelGrid>
+			</p:panel>
+		</h:form>
+
+		<br></br>
+		<h:form id="formConsultas">
+			<p:dataTable var="consulta" value="#{fechamentoBean.consultas}">
+				<f:facet name="header">Consultas Efetuadas</f:facet>
+
+				<p:column headerText="Data de Atendimento">
+					<h:outputText value="#{consulta.dataRealizacao}">
+						<f:convertDateTime pattern="dd/MM/yyyy"
+							timeZone="America/Sao_Paulo" />
+					</h:outputText>
+				</p:column>
+
+				<p:column headerText="Carteira">
+					<h:outputText value="#{consulta.carteira}" />
+				</p:column>
+
+				<p:column headerText="Nome">
+					<h:outputText value="#{consulta.nome}" />
+				</p:column>
+
+				<p:column headerText="Valor">
+					<h:outputText value="#{consulta.valor}">
+						<f:convertNumber type="currency" locale="pt_BR" />
+					</h:outputText>
+				</p:column>
+
+				<p:column headerText="Remover">
+					<p:commandButton icon="fa fa-fw fa-remove"
+						action="#{fechamentoBean.remover(consulta)}"
+						update="formConsultas"
+						disabled="#{fechamentoBean.loteGuia.status.id > 0}" />
+				</p:column>
+				<p:columnGroup type="footer">
+					<p:row>
+						<p:column colspan="3"
+							footerText="Total de Registros: #{fechamentoBean.qtdeConsulta}" />
+						<p:column footerText="#{fechamentoBean.totalConsultaFormatado}" />
+						
+						<p:column />
+					</p:row>
+				</p:columnGroup>
+			</p:dataTable>
+		</h:form>
+
+		<br></br>
+		<h:form id="formSADT">
+			<p:dataTable var="procedimento" value="#{fechamentoBean.listaSADT}">
+				<f:facet name="header">SADTs Efetuadas</f:facet>
+
+				<p:column headerText="Data de Atendimento">
+					<h:outputText value="#{procedimento.dataRealizacao}">
+						<f:convertDateTime pattern="dd/MM/yyyy"
+							timeZone="America/Sao_Paulo" />
+					</h:outputText>
+				</p:column>
+
+
+				<p:column headerText="Carteira">
+					<h:outputText value="#{procedimento.carteira}" />
+				</p:column>
+
+				<p:column headerText="Nome">
+					<h:outputText value="#{procedimento.nome}" />
+				</p:column>
+
+				<p:column headerText="Valor">
+					<h:outputText value="#{procedimento.valor}">
+						<f:convertNumber currencyCode="BRL" type="currency" />
+					</h:outputText>
+				</p:column>
+
+				<p:column headerText="Remover">
+					<p:commandButton icon="fa fa-fw fa-remove"
+						action="#{fechamentoBean.remover(procedimento)}" update="formSADT"
+						disabled="#{fechamentoBean.loteGuia.status.id > 0}" />
+				</p:column>
+
+				<p:columnGroup type="footer">
+					<p:row>
+						<p:column colspan="3"
+							footerText="Total de Registros: #{fechamentoBean.qtdeSadt}" />
+						<p:column footerText="#{fechamentoBean.totalSadtFormatado}" />
+						<p:column />
+					</p:row>
+				</p:columnGroup>
+			</p:dataTable>
+		</h:form>
+
+		<br></br>
+		<h:form id="formInternacao">
+			<p:dataTable var="procedimento"
+				value="#{fechamentoBean.listaInternacao}">
+				<f:facet name="header">Internações Efetuadas</f:facet>
+
+				<p:column headerText="Data de Atendimento">
+					<h:outputText value="#{procedimento.dataRealizacao.time}">
+						<f:convertDateTime pattern="dd/MM/yyyy"
+							timeZone="America/Sao_Paulo" />
+					</h:outputText>
+				</p:column>
+
+
+				<p:column headerText="Carteira">
+					<h:outputText value="#{procedimento.carteira}" />
+				</p:column>
+
+				<p:column headerText="Nome">
+					<h:outputText value="#{procedimento.nome}" />
+				</p:column>
+
+				<p:column headerText="Valor">
+					<h:outputText value="#{procedimento.valor}">
+						<f:convertNumber currencyCode="BRL" type="currency" />
+					</h:outputText>
+				</p:column>
+
+				<p:column headerText="Remover">
+					<p:commandButton icon="fa fa-fw fa-remove"
+						action="#{fechamentoBean.remover(procedimento)}"
+						update="formInternacao"
+						disabled="#{fechamentoBean.loteGuia.status.id > 0}" />
+				</p:column>
+
+				<p:columnGroup type="footer">
+					<p:row>
+						<p:column colspan="3"
+							footerText="Total de Registros: #{fechamentoBean.qtdeInternacao}" />
+						<p:column footerText="#{fechamentoBean.totalInternacaoFormatado}" />
+						<p:column />
+					</p:row>
+				</p:columnGroup>
+			</p:dataTable>
+		</h:form>
+
+	</ui:define>
+	<ui:define name="texto" />
+
+</ui:composition>
+</html>

@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions">
+
+<ui:composition template="_template.xhtml">
+	<ui:define name="titulo">Adicionar Usuario</ui:define>
+	<ui:define name="conteudo">
+
+		<h:form id="formPesquisa">
+			<p:messages id="messages" />
+			<p:panel id="busca" header="Usuário"
+				style="margin-bottom:20px">
+				<h:panelGrid columns="3">
+
+
+
+					<p:outputLabel value="Login:" for="login" />
+					<p:inputText id="login" value="#{usuarioBean.usuario.login}"
+						required="true" requiredMessage="Login deve ser Preenchido" />
+					<p:outputLabel
+						value="Texto sem Caracteres Especiais como pontos, traços, etc ( . - / * ? ´ [ } , outros)" />
+
+
+					<p:outputLabel value="Nome Completo:" for="nome" />
+					<p:inputText id="nome" value="#{usuarioBean.usuario.nome}"
+						required="true"
+						requiredMessage="Nome Completo deve ser Preenchido" size="50"/>
+					<br></br>
+
+					<p:outputLabel value="E-mail:" for="email" />
+					<p:inputText id="email" value="#{usuarioBean.usuario.email}"
+						required="true" requiredMessage="E-mail deve ser Preenchido!" size="50"/>
+					<br></br>
+
+					<h:outputText value="Senha:" for="senha" />
+					<p:password id="senha" value="#{usuarioBean.usuario.senha}"
+						feedback="true" promptLabel="Digite a senha" weakLabel="Fraca"
+						goodLabel="Boa" strongLabel="Forte" required="true" requiredMessage="Senha deve ser Preenchida!"/>
+					<br></br>
+
+					<p:outputLabel value="Telefone:" for="fone" />
+					<p:inputText id="fone" value="#{usuarioBean.usuario.fone}"
+						required="true" requiredMessage="Telefone deve ser Preenchido!" />
+					<br></br>
+
+					<p:outputLabel value="Conveniado:" for="conveniado" />
+					<p:inputText id="conveniado"
+						value="#{usuarioBean.idPrestador}" required="true"
+						requiredMessage="Conveniado deve ser Preenchido!">
+						<p:keyFilter for="conveniado" mask="num" />
+					</p:inputText>
+					<p:outputLabel
+						value="Somente Números (Cod. do Conveniado no IMASF)" />
+
+					<p:outputLabel value="Nº Conselho" for="nconselho" />
+					<p:inputText id="nconselho"
+						value="#{usuarioBean.idProfissional}" required="true"
+						requiredMessage="Nº Conselho deve ser Preenchido!">
+						<p:keyFilter for="nconselho" mask="num" />
+					</p:inputText>
+					<p:outputLabel value="Somente Números (Nº do CRM, etc)" />
+
+				</h:panelGrid>
+			</p:panel>
+
+			<p:commandButton value="Gravar" action="#{usuarioBean.gravar}"
+				process="@form" update="@form">
+			</p:commandButton>
+
+		</h:form>
+
+	</ui:define>
+	<ui:define name="texto" />
+
+</ui:composition>
+</html>

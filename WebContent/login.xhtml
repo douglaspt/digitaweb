@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<title>Digitaweb</title>
+</h:head>
+
+<h:body >
+	<p:toolbar>
+		<f:facet name="left">
+			<h:outputLabel
+				value="DigitaWeb - Sistema de Digitação
+				de Contas Médicas do IMASF"
+				style="font-family:arial, sans-serif; font-size:26px; margin-bottom:30px" />
+		</f:facet>
+	</p:toolbar>
+	<br/><br/>
+	<h:outputScript library="js" name="locale-primefaces.js" />
+	<p:growl id="messages" showDetail="false" autoUpdate="true"
+		sticky="true" />
+	<p:messages globalOnly="true" />
+	<h:form id="Formlogin" style="width: 40%">
+		<p:fieldset legend="Login">
+			<h:panelGrid columns="3">
+
+				<p:outputLabel value="Login:" for="login" />
+				<p:inputText id="login" value="#{loginBean.usuario.login}"
+					required="true" requiredMessage="Login Obrigatório">
+				</p:inputText>
+				<p:message for="login" id="messageLogin" />
+
+				<p:outputLabel value="Senha:" for="senha" />
+				<p:password id="senha" value="#{loginBean.usuario.senha}"
+					required="true" requiredMessage="Senha Obrigatória">
+
+				</p:password>
+
+				<p:message for="senha" id="messageSenha" />
+
+				<p:commandButton value="Efetuar Login"
+					action="#{loginBean.efetuaLogin}" update="@form" process="@form" />
+			</h:panelGrid>
+		</p:fieldset>
+	</h:form>
+</h:body>
+</html>

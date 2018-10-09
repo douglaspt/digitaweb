@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions">
+
+<ui:composition template="_template.xhtml">
+	<ui:define name="titulo">Adicionar Consulta</ui:define>
+	<ui:define name="conteudo">
+
+		<h:form id="formPesquisa">
+			<p:messages id="messages" />
+			<p:panel id="busca" header="Guia de Consulta"
+				style="margin-bottom:20px">
+				<h:panelGrid columns="3">
+
+					<h:outputText value="Mês/Ano de Referência:"
+						style="font-size:16px; font-weight: bold" />
+					<h:outputText value="#{consultaBean.referencia.time}"
+						style="font-size:16px; font-weight: bold">
+						<f:convertDateTime pattern="MMMM/yyyy"
+							timeZone="America/Sao_Paulo" />
+					</h:outputText>
+					<br></br>
+					<p:outputLabel value="Data de Atendimento" for="dataAtendimento" />
+					<p:calendar id="dataAtendimento" locale="pt"
+						value="#{consultaBean.consulta.dataAtendimento}"
+						pattern="dd/MM/yyyy" timeZone="America/Sao_Paulo" mask="true"
+						required="true"
+						requiredMessage="Data de Atendimento deve ser Preenchida">
+					</p:calendar>
+					<br />
+
+					<p:outputLabel value="Nº Carteira:" for="carteira" />
+					<p:inputText id="carteira"
+						value="#{consultaBean.consulta.carteira}" required="true"
+						requiredMessage="Nº Carteira deve ser Preenchida"
+						validatorMessage="Nº Carteira deve possuir 10 caracteres">
+						<f:validateLength minimum="10" maximum="10" />
+
+					</p:inputText>
+					<p:outputLabel
+						value="Somente Números (10 Posições, sem traços ou pontos)" />
+
+
+					<p:outputLabel value="Conselho Profissional:" for="conselho" />
+					<p:inputText id="conselho"
+						value="#{consultaBean.consulta.conselhoProfissional}"
+						required="true"
+						requiredMessage="Conselho Profissional deve ser Preenchido" />
+					<p:outputLabel value="CRM, CRO, CRP, ..." />
+
+
+					<p:outputLabel value="Num. no Conselho:" for="nconselho" />
+					<p:inputText id="nconselho" value="#{consultaBean.idProfissional}"
+						required="true"
+						requiredMessage="Nº no Conselho deve ser Preenchido" />
+					<p:outputLabel value="Somente Números (Nº do CRM, etc)" />
+
+					<p:outputLabel value="UF Conselho:" for="uf" />
+					<p:inputText id="uf" value="#{consultaBean.consulta.uf}"
+						required="true" requiredMessage="UF Conselho deve ser Preenchido" />
+					<p:outputLabel value="SP, RJ, MG, ..." />
+
+					<p:outputLabel value="Especialidade: " />
+					<p:selectOneMenu value="#{consultaBean.idEspecialidade}"
+						effect="fade">
+						<f:selectItems
+							value="#{consultaBean.listaEspecialidadePrestador()}" var="ep"
+							itemValue="#{ep.especialidade.id}"
+							itemLabel="#{ep.especialidade.id} - #{ep.especialidade.descricao}" />
+					</p:selectOneMenu>
+					<p:outputLabel value="*" />
+
+
+
+					<p:outputLabel value="Nº Autorização" for="autorizacao" />
+					<p:inputText id="autorizacao" decimalSeparator=","
+						thousandSeparator="." value="#{consultaBean.consulta.autorizacao}"
+						required="true"
+						requiredMessage="Nº Autorização deve ser Preenchida">
+						<p:keyFilter for="autorizacao" mask="num" />
+					</p:inputText>
+					<p:outputLabel value="Somente Números sem ponto, vírgula ou sinais" />
+
+
+					<p:outputLabel value="CID:" for="cid" />
+					<p:inputText id="cid" value="#{consultaBean.idCid}" required="true"
+						requiredMessage="CID Obrigatório" />
+					<p:outputLabel value="Código CID10 do diagnóstico principal" />
+
+
+					<p:outputLabel value="Tipo de Consulta: " />
+					<p:selectOneMenu value="#{consultaBean.idTipoConsulta}"
+						effect="fade">
+						<f:selectItems value="#{consultaBean.tipoConsultas}"
+							var="tipoConsulta" itemValue="#{tipoConsulta.id}"
+							itemLabel="#{tipoConsulta.descricao}" />
+					</p:selectOneMenu>
+					<p:outputLabel value="*" />
+
+					<p:outputLabel value="Tipo de Saída: " />
+					<p:selectOneMenu value="#{consultaBean.idTipoSaida}" effect="fade">
+						<f:selectItems value="#{consultaBean.tipoSaidas}" var="tipoSaida"
+							itemValue="#{tipoSaida.id}" itemLabel="#{tipoSaida.descricao}" />
+					</p:selectOneMenu>
+					<p:outputLabel value="*" />
+
+					<p:outputLabel value="Valor da Consulta:" for="valor" />
+					<p:inputNumber id="valor" value="#{consultaBean.consulta.valor}"
+						required="true" decimalSeparator="," thousandSeparator="."
+						requiredMessage="Valor da Consulta deve ser Preenchido" />
+
+				</h:panelGrid>
+				<br></br>
+				<p:commandButton value="Gravar" action="#{consultaBean.gravar}"
+					process="@form" update="@form :formConsultas"
+					disabled="#{consultaBean.loteGuia.status.id > 0}">
+				</p:commandButton>
+
+			</p:panel>
+			<p:toolbar>
+				<f:facet name="left">
+					<h:outputLabel value="#{consultaBean.loteGuia.status.descricao}"
+						style="font-size:14px; margin-bottom:20px" />
+				</f:facet>
+			</p:toolbar>
+
+		</h:form>
+		<br />
+		<h:form id="formConsultas">
+			<p:dataTable var="consulta" value="#{consultaBean.consultas}"
+				id="tabelaConsulta">
+				<f:facet name="header">Consultas Efetuadas</f:facet>
+
+				<p:column headerText="Data de Atendimento"
+					sortBy="#{consulta.dataAtendimento.time}">
+					<h:outputText value="#{consulta.dataAtendimento.time}">
+						<f:convertDateTime pattern="dd/MM/yyyy"
+							timeZone="America/Sao_Paulo" />
+					</h:outputText>
+				</p:column>
+
+				<p:column headerText="Carteira">
+					<h:outputText value="#{consulta.carteira}" />
+				</p:column>
+
+				<p:column headerText="Nome">
+					<h:outputText value="#{consulta.nome}" />
+				</p:column>
+
+				<p:column headerText="Id. Esp.">
+					<h:outputText value="#{consulta.especialidade.id}" />
+				</p:column>
+
+				<p:column headerText="Valor">
+					<h:outputText value="#{consulta.valorDouble}">
+						<f:convertNumber currencyCode="BRL" type="currency" />
+					</h:outputText>
+				</p:column>
+				<p:column headerText="Remover">
+					<p:commandButton icon="fa fa-fw fa-remove"
+						action="#{consultaBean.remover(consulta)}" update="formConsultas"
+						disabled="#{consultaBean.loteGuia.status.id > 0}" />
+				</p:column>
+
+
+				<p:columnGroup type="footer">
+					<p:row>
+						<p:column colspan="4"
+							footerText="Total de Registros: #{consultaBean.quantidade}" />
+						<p:column footerText="#{consultaBean.valorTotalFormatado}" />
+						<p:column>
+							<f:facet name="footer">
+								<h:commandLink>
+									<p:graphicImage name="/img/excel.png" width="24" />
+									<p:dataExporter type="xls" target="tabelaConsulta" fileName="consultas"/>
+								</h:commandLink>
+							</f:facet>
+						</p:column>
+					</p:row>
+				</p:columnGroup>
+			</p:dataTable>
+		</h:form>
+
+
+
+	</ui:define>
+	<ui:define name="texto" />
+
+</ui:composition>
+</html>

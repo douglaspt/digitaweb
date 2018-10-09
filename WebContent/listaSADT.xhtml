@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions">
+
+<ui:composition template="_template.xhtml">
+	<ui:define name="titulo">Listagem de SADT</ui:define>
+
+	<ui:define name="conteudo">
+
+		<h:form id="formPesquisa">
+			<p:messages id="messages" />
+
+			<p:panel id="busca" header="Busca por Mês / Ano"
+				style="margin-bottom:20px">
+				<h:panelGrid columns="4" cellpadding="10">
+
+					<p:outputLabel value="Mês de Referencia:" for="mes" />
+					<p:selectOneMenu value="#{guiaSADTBean.mes}" id="mes"
+						style="width:125px">
+						<f:selectItems value="#{guiaSADTBean.meses}" var="mes"
+							itemLabel="#{mes}" itemValue="#{mes.numMes}" />
+					</p:selectOneMenu>
+					<p:outputLabel value="Ano:" for="ano" />
+					<p:inputText id="ano" value="#{guiaSADTBean.ano}" required="true"
+						requiredMessage="Ano deve ser Preenchido">
+						<f:validateLength minimum="4" maximum="4" />
+						<p:keyFilter for="ano" mask="num" />
+					</p:inputText>
+
+					<p:commandButton icon="fa fa-fw fa-search" value="Pesquisar"
+						actionListener="#{guiaSADTBean.pesquisaTotalProcedimentos}"
+						process="@form" update="@form formSADTs">
+					</p:commandButton>
+				</h:panelGrid>
+			</p:panel>
+
+			<p:ajaxStatus onstart="PF('statusDialog').show()"
+				onsuccess="PF('statusDialog').hide()" />
+			<p:dialog widgetVar="statusDialog" modal="true" draggable="false"
+				closable="false" resizable="false" showHeader="false">
+				<p:graphicImage library="img" name="ajaxloadingbar.gif" />
+			</p:dialog>
+
+			<p:toolbar>
+				<f:facet name="left">
+					<h:outputLabel value="#{guiaSADTBean.loteGuia.status.descricao}"
+						style="font-size:14px; margin-bottom:20px" />
+				</f:facet>
+			</p:toolbar>
+		</h:form>
+		<br></br>
+		<h:form id="formSADTs">
+			<p:dataTable var="procedimento"
+				value="#{guiaSADTBean.listaSADT}"
+				id="tabelaProcedimento">
+				<f:facet name="header">Procedimentos Efetuadas</f:facet>
+
+				<p:column headerText="Data de Atendimento"
+					sortBy="#{procedimento.dataAtendimento.time}">
+					<h:outputText value="#{procedimento.dataRealizacao.time}">
+						<f:convertDateTime pattern="dd/MM/yyyy"
+							timeZone="America/Sao_Paulo" />
+					</h:outputText>
+				</p:column>
+
+				<p:column headerText="Carteira">
+					<h:outputText value="#{procedimento.carteira}" />
+				</p:column>
+
+				<p:column headerText="Nome">
+					<h:outputText value="#{procedimento.nome}" />
+				</p:column>
+
+				<p:column headerText="Valor">
+					<h:outputText value="#{procedimento.valor}">
+						<f:convertNumber currencyCode="BRL" type="currency" />
+					</h:outputText>
+				</p:column>
+
+				<p:column headerText="Remover">
+					<p:commandButton icon="fa fa-fw fa-remove"
+						action="#{guiaSADTBean.remover(procedimento)}"
+						update="formSADTs tabelaProcedimento"
+						disabled="#{guiaSADTBean.loteGuia.status.id > 0}">
+						<p:confirm message="Deseja remover o SADT de: #{procedimento.nome}"
+							icon="ui-icon-alert" />
+						</p:commandButton>
+
+					<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+						<p:commandButton value="Sim" type="button"
+							styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+						<p:commandButton value="Não" type="button"
+							styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+					</p:confirmDialog>
+				</p:column>
+
+
+				<p:columnGroup type="footer">
+					<p:row>
+						<p:column colspan="3"
+							footerText="Total de Registros: #{guiaSADTBean.quantidade}" />
+						<p:column footerText="#{guiaSADTBean.valorTotalFormatado}" />
+						<p:column>
+							<f:facet name="footer">
+								<h:commandLink>
+									<p:graphicImage name="/img/excel.png" width="24" />
+									<p:dataExporter type="xls" target="tabelaProcedimento" fileName="sadt" />
+								</h:commandLink>
+							</f:facet>
+						</p:column>
+					</p:row>
+				</p:columnGroup>
+			</p:dataTable>
+		</h:form>
+
+	</ui:define>
+	<ui:define name="texto" />
+
+</ui:composition>
+</html>

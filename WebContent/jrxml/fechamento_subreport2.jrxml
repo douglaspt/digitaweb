@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="fechamento_subreport2" pageWidth="520" pageHeight="802" columnWidth="520" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="f83a523d-5372-414d-ad79-4df10085a5d1">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<import value="net.sf.jasperreports.engine.data.JRBeanCollectionDataSource"/>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA[""]]></defaultValueExpression>
+	</parameter>
+	<parameter name="idPrestador" class="java.lang.Integer"/>
+	<parameter name="dtEmissao" class="java.util.Date"/>
+	<parameter name="lista3" class="java.util.List" isForPrompting="false"/>
+	<parameter name="qtdeSadt" class="java.lang.Integer"/>
+	<parameter name="qtdeInternacao" class="java.lang.Integer"/>
+	<queryString>
+		<![CDATA[SELECT
+     sum(g.subTotal) AS valor,
+     g.`dtAtendimento_sadt` as dataRealizacao,
+     g.`numCarteira_sadt` as carteira,
+     g.`nomeBeneficiario_sadt` as nome
+FROM
+     `vw_guiasadt` g
+WHERE
+     g.cod_conveniado = $P{idPrestador}
+     and g.dtEmissao_sadt = $P{dtEmissao}
+GROUP BY
+     g.dtAtendimento_sadt,
+     g.numCarteira_sadt,
+     g.nomeBeneficiario_sadt
+ORDER BY
+     g.dtAtendimento_sadt ASC,
+     g.nomeBeneficiario_sadt ASC]]>
+	</queryString>
+	<field name="valor" class="java.lang.Double"/>
+	<field name="dataRealizacao" class="java.sql.Date"/>
+	<field name="carteira" class="java.lang.String"/>
+	<field name="nome" class="java.lang.String"/>
+	<variable name="subTotal_1" class="java.lang.Double" calculation="Sum">
+		<variableExpression><![CDATA[$F{valor}]]></variableExpression>
+	</variable>
+	<variable name="valor_1" class="java.lang.Double" calculation="Sum">
+		<variableExpression><![CDATA[$F{valor}]]></variableExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band height="20" splitType="Stretch">
+			<printWhenExpression><![CDATA[$P{qtdeSadt} > 0]]></printWhenExpression>
+			<staticText>
+				<reportElement uuid="739111c0-a4a0-4e28-b046-7b36f3810884" mode="Opaque" x="0" y="0" width="520" height="20" backcolor="#E6E6E6"/>
+				<textElement textAlignment="Center">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[SADT]]></text>
+			</staticText>
+			<line>
+				<reportElement uuid="5b2df3d7-ca18-4715-908a-a17e301bb7ee" x="0" y="0" width="520" height="1"/>
+			</line>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="20" splitType="Stretch">
+			<printWhenExpression><![CDATA[$P{qtdeSadt} > 0]]></printWhenExpression>
+			<staticText>
+				<reportElement uuid="805af939-c877-4698-8538-29869f9f16ff" mode="Opaque" x="0" y="0" width="90" height="20" forecolor="#006699" backcolor="#E6E6E6"/>
+				<textElement>
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[DATA]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="b19a5fb9-047f-4b01-b895-c3547eba4053" mode="Opaque" x="90" y="0" width="80" height="20" forecolor="#006699" backcolor="#E6E6E6"/>
+				<textElement>
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[CARTEIRINHA]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="e2f2ef37-3b0e-4986-94e7-630c65d9253f" mode="Opaque" x="170" y="0" width="260" height="20" forecolor="#006699" backcolor="#E6E6E6"/>
+				<textElement textAlignment="Justified">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[NOME]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="1e5fc78e-de0d-4012-a572-26beb1d97b22" mode="Opaque" x="430" y="0" width="90" height="20" forecolor="#006699" backcolor="#E6E6E6"/>
+				<textElement textAlignment="Right">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[VALOR]]></text>
+			</staticText>
+			<line>
+				<reportElement uuid="d18de6eb-65ab-41a9-af2d-0554e5657df6" x="0" y="19" width="520" height="1"/>
+			</line>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="20" splitType="Stretch">
+			<printWhenExpression><![CDATA[$P{qtdeSadt} > 0]]></printWhenExpression>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement uuid="0e03d507-a87e-4bec-aa8f-75219f11ed3a" x="0" y="0" width="90" height="20"/>
+				<textElement>
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{dataRealizacao}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="9c873f25-7c2f-464d-b79a-f1cefc26fb78" x="170" y="0" width="260" height="20"/>
+				<textElement>
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nome}]]></textFieldExpression>
+			</textField>
+			<textField pattern="¤ #,##0.00">
+				<reportElement uuid="eb20e0e4-4787-4ba2-aa66-78e1ac495631" x="430" y="0" width="90" height="20"/>
+				<textElement textAlignment="Right">
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{valor}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement uuid="d0213b82-3e62-48c6-b3ee-d19586d0031b" x="0" y="19" width="520" height="1"/>
+			</line>
+			<textField>
+				<reportElement uuid="f248116a-a6b7-43e8-8a51-5745fd20348a" x="90" y="0" width="80" height="20"/>
+				<textElement>
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{carteira}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="98" splitType="Stretch">
+			<subreport>
+				<reportElement uuid="e9e2be2f-8bfd-4c6f-a1dd-adba61769067" x="0" y="47" width="520" height="51"/>
+				<subreportParameter name="idPrestador">
+					<subreportParameterExpression><![CDATA[$P{idPrestador}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="qtdeSadt">
+					<subreportParameterExpression><![CDATA[$P{qtdeSadt}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="qtdeInternacao">
+					<subreportParameterExpression><![CDATA[$P{qtdeInternacao}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="dtEmissao">
+					<subreportParameterExpression><![CDATA[$P{dtEmissao}]]></subreportParameterExpression>
+				</subreportParameter>
+				<dataSourceExpression><![CDATA[new JRBeanCollectionDataSource($P{lista3})]]></dataSourceExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "fechamento_subreport3.jasper"]]></subreportExpression>
+			</subreport>
+			<textField pattern="¤ #,##0.00">
+				<reportElement uuid="7368e15b-d9d7-4812-a4f3-a28dad9891b0" x="430" y="8" width="90" height="20">
+					<printWhenExpression><![CDATA[$P{qtdeSadt} > 0]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Right">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{valor_1}]]></textFieldExpression>
+			</textField>
+		</band>
+	</summary>
+</jasperReport>
