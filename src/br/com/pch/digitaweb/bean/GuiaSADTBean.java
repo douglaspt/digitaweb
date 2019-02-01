@@ -94,7 +94,7 @@ public class GuiaSADTBean implements Serializable {
 			loteGuia.setStatus(status);
 			loteGuiDao.adiciona(loteGuia);
 		}
-		this.listaSADT = itemSADTDao.buscaGuiaSADT(prestador.getId(), referencia);
+		this.listaSADT = itemSADTDao.buscaGuiaSADT(prestador.getId(), data);
 		calculaTotal();
 	}
 

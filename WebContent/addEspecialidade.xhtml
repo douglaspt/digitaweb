@@ -13,14 +13,12 @@
 
 		<h:form id="formPesquisa">
 			<p:messages id="messages" />
-			<p:panel id="busca" header="Especialidade"
-				style="margin-bottom:20px">
-				<h:panelGrid columns="3">					
+			<p:panel id="busca" header="Especialidade" style="margin-bottom:20px">
+				<h:panelGrid columns="3">
 
 					<p:outputLabel value="Id" for="id" />
-					<p:inputText id="id" decimalSeparator=","
-						thousandSeparator="." value="#{especialidadeBean.especialidade.id}"
-						required="true"
+					<p:inputText id="id" decimalSeparator="," thousandSeparator="."
+						value="#{especialidadeBean.especialidade.id}" required="true"
 						requiredMessage="Código deve ser Preenchido">
 						<p:keyFilter for="id" mask="num" />
 					</p:inputText>
@@ -28,8 +26,10 @@
 
 
 					<p:outputLabel value="Especialidade:" for="especialidade" />
-					<p:inputText id="especialidade" value="#{especialidadeBean.especialidade.descricao}"
-						required="true" requiredMessage="Especialidade deve ser Preenchida" size="50" />
+					<p:inputText id="especialidade"
+						value="#{especialidadeBean.especialidade.descricao}"
+						required="true"
+						requiredMessage="Especialidade deve ser Preenchida" size="50" />
 					<br></br>
 
 
@@ -44,7 +44,8 @@
 		</h:form>
 		<br />
 		<h:form id="formLista">
-			<p:dataTable var="especialidade" value="#{especialidadeBean.especialidades}" id="tabelaConsulta">
+			<p:dataTable var="especialidade"
+				value="#{especialidadeBean.especialidades}" id="tabelaConsulta">
 				<f:facet name="header">Especialidades</f:facet>
 
 				<p:column headerText="ID. Esp.">
@@ -59,7 +60,19 @@
 
 				<p:column headerText="Remover">
 					<p:commandButton icon="fa fa-fw fa-remove"
-						action="#{especialidadeBean.remover(especialidade)}" update="formLista" />
+						action="#{especialidadeBean.remover(especialidade)}"
+						update="formLista">
+						<p:confirm
+							message="Deseja remover a Especialidade: #{especialidade.descricao}"
+							icon="ui-icon-alert" />
+					</p:commandButton>
+
+					<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+						<p:commandButton value="Sim" type="button"
+							styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+						<p:commandButton value="Não" type="button"
+							styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+					</p:confirmDialog>
 				</p:column>
 
 			</p:dataTable>

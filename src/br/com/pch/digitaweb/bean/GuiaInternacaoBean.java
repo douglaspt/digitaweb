@@ -93,7 +93,7 @@ public class GuiaInternacaoBean implements Serializable{
 			loteGuia.setStatus(status);
 			loteGuiDao.adiciona(loteGuia);
 		}
-		this.listaInternacao = itemInternacaoDao.buscaGuiaInternacao(prestador.getId(), referencia);
+		this.listaInternacao = itemInternacaoDao.buscaGuiaInternacao(prestador.getId(), data);
 		calculaTotal();
 	}
 	

@@ -38,6 +38,13 @@
 					</p:commandButton>
 				</h:panelGrid>
 			</p:panel>
+			
+			<p:ajaxStatus onstart="PF('statusDialog').show()"
+				onsuccess="PF('statusDialog').hide()" />
+			<p:dialog widgetVar="statusDialog" modal="true" draggable="false"
+				closable="false" resizable="false" showHeader="false">
+				<p:graphicImage library="img" name="ajaxloadingbar.gif" />
+			</p:dialog>
 
 			<p:toolbar>
 				<f:facet name="left">
