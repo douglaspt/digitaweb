@@ -1,8 +1,9 @@
 package br.com.pch.digitaweb.teste;
 
 import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
 
-import br.com.pch.digitaweb.dao.JPAUtil;
 import br.com.pch.digitaweb.dao.UsuarioDao;
 import br.com.pch.digitaweb.modelo.Usuario;
 
@@ -10,7 +11,11 @@ public class TesteUsuario {
 
 	public static void main(String[] args) {
 
-		EntityManager em = new JPAUtil().getEntityManager();
+		//EntityManager em = new JPAUtil().getEntityManager();
+		
+		EntityManagerFactory emf = Persistence.createEntityManagerFactory("digitawebLocal");
+
+		EntityManager em = emf.createEntityManager();
 		
 		Usuario usuario = new Usuario();
 		usuario.setLogin("douglas");

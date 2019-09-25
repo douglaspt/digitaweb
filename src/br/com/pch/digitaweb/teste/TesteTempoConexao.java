@@ -1,8 +1,9 @@
 package br.com.pch.digitaweb.teste;
 
 import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
 
-import br.com.pch.digitaweb.dao.JPAUtil;
 import br.com.pch.digitaweb.dao.UsuarioDao;
 import br.com.pch.digitaweb.modelo.Usuario;
 
@@ -10,11 +11,11 @@ public class TesteTempoConexao {
 
 	public static void main(String[] args) throws InterruptedException {
 
-		//EntityManagerFactory emf = Persistence.createEntityManagerFactory("digitaweb");
+		EntityManagerFactory emf = Persistence.createEntityManagerFactory("digitaweb");
 
-		//EntityManager em = emf.createEntityManager();
+		EntityManager em = emf.createEntityManager();
 		
-		EntityManager em = new JPAUtil().getEntityManager();
+		//EntityManager em = new JPAUtil().getEntityManager();
 		
 		UsuarioDao dao = new UsuarioDao(em);
 		

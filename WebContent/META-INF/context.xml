@@ -5,6 +5,6 @@
 
 	<Resource name="jdbc/digitawebDB" auth="Container"
 		factory="org.apache.naming.factory.BeanFactory" type="com.mchange.v2.c3p0.ComboPooledDataSource"
-		driverClass="com.mysql.jdbc.Driver" jdbcUrl="jdbc:mysql://mysql01.imasf1.hospedagemdesites.ws/imasf1?autoReconnect = true"
+		driverClass="com.mysql.jdbc.Driver" jdbcUrl="jdbc:mysql://191.252.115.92/imasf1?autoReconnect = true"
 		user="imasf1" password="imasf@0305" minPoolSize="5" maxPoolSize="5" maxIdleTime="10"/>
 </Context>

@@ -46,5 +46,23 @@
 
 
 	</persistence-unit>
+	
+	<persistence-unit name="digitawebLocal"
+		transaction-type="RESOURCE_LOCAL">
+
+		<provider>org.hibernate.ejb.HibernatePersistence</provider>
+
+		<properties>
+			<property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver" />
+			<property name="javax.persistence.jdbc.url"
+				value="jdbc:mysql://mysql01.imasf1.hospedagemdesites.ws/imasf1?autoReconnect = true" />
+			<property name="javax.persistence.jdbc.user" value="imasf1" />
+			<property name="javax.persistence.jdbc.password" value="imasf@0305" />
+			<property name="hibernate.hbm2ddl.auto" value="none" />
+			<property name="hibernate.show_sql" value="true" />
+			<property name="hibernate.format_sql" value="true" />
+			<property name="hibernate.dialect" value="org.hibernate.dialect.MySQL5InnoDBDialect" />
+		</properties>
+	</persistence-unit>
 
 </persistence>
