@@ -45,8 +45,8 @@
 					</h:outputText>
 					<h:outputText
 						value="Atenção ! Ao confirmar este lote de guias será enviado ao IMASF e não poderá mais ser alterado !"
-						style="font-size:14px; font-weight: bold; color: red"/>
-					<h:outputText value="" />
+						style="font-size:14px; font-weight: bold; color: red" rendered="#{!(fechamentoBean.loteGuia.status.id > 0)}"/>
+					<h:outputText value="" rendered="#{!(fechamentoBean.loteGuia.status.id > 0)}"/>
 
 					<p:commandButton icon="fa fa-fw fa-check" value="Confirmar"
 						action="#{fechamentoBean.confirmar}" process="formTotais"

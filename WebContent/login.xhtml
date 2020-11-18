@@ -8,10 +8,16 @@
 	xmlns:p="http://primefaces.org/ui">
 
 <h:head>
+	<link href="${contextPath}resources/css/estilo.css" rel="stylesheet"
+		type="text/css" media="all" />
 	<title>Digitaweb</title>
 </h:head>
 
-<h:body >
+<h:body class="background">
+
+	<h:panelGrid columns="2">
+		<h:graphicImage library="img" name="logoImasf.png" />
+	</h:panelGrid>
 	<p:toolbar>
 		<f:facet name="left">
 			<h:outputLabel
@@ -20,7 +26,8 @@
 				style="font-family:arial, sans-serif; font-size:26px; margin-bottom:30px" />
 		</f:facet>
 	</p:toolbar>
-	<br/><br/>
+	<br />
+	<br />
 	<h:outputScript library="js" name="locale-primefaces.js" />
 	<p:growl id="messages" showDetail="false" autoUpdate="true"
 		sticky="true" />

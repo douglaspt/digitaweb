@@ -6,27 +6,23 @@
 
 <h:head>
 
+	<link href="${contextPath}resources/css/estilo.css" rel="stylesheet"
+		type="text/css" media="all" />
+
 	<title>Digitaweb</title>
 </h:head>
-<h:body>
+<h:body class="background">
 	<h:outputScript library="js" name="locale-primefaces.js" />
 	<div id="cabecalho">
 		<p:growl id="messages" showDetail="false" autoUpdate="true"
 			sticky="true" />
 
 		<h:panelGrid columns="2">
-			<p:toolbar>
-				<f:facet name="left">
-					<h:outputLabel
-						value="DigitaWeb - Sistema de Digitação
-				de Contas Médicas do IMASF"
-						style="font-family:arial, sans-serif; font-size:22px; margin-bottom:30px" />
-				</f:facet>
-			</p:toolbar>
-
-			<p:fieldset legend="Login" style="position:absolute; right: 20px;">
+			<h:graphicImage library="img" name="logoImasf.png" />
+			<p:fieldset legend="Login"
+				style="position:absolute; right: 50px; top: 10px;">
 				<h:panelGrid columns="2" cellpadding="5">
-					<p:outputLabel value="Usuário: #{usuarioLogado.nome}" />
+					<p:outputLabel value="Usuário: #{usuarioLogado.nome}" style="font-weight: bold"/>
 					<br></br>
 					<p:outputLabel value="Acesso: #{acessoLogin.tipo}" />
 					<br></br>
@@ -34,7 +30,7 @@
 						value="Prestador: #{prestadorSessao.id} - #{prestadorSessao.nome}" />
 				</h:panelGrid>
 			</p:fieldset>
-		<!-- 
+			<!-- 
 			<h:form rendered="#{usuarioLogado != null}"
 				style="position:absolute; right: 10px">
 				<p:themeSwitcher id="basic" style="width:165px"
@@ -66,7 +62,7 @@
 					<p:menuitem value="Usuarios Cadastrados"
 						action="listaUsuario?faces-redirect=true" />
 					<p:menuitem value="Listagem de Lotes"
-						action="listaLoteGuia?faces-redirect=true" />	
+						action="listaLoteGuia?faces-redirect=true" />
 				</p:submenu>
 
 				<p:submenu label="Sistema" icon="ui-icon-gear">
@@ -102,20 +98,20 @@
 					</p:submenu>
 
 					<p:menuitem value="Fechamento do Lote de Guias / Comprovante"
-						action="fechamento?faces-redirect=true"/>
+						action="fechamento?faces-redirect=true" />
 					<p:separator />
 				</p:submenu>
 
 				<p:submenu label="Consultas" icon="ui-icon-document">
 					<p:menuitem value="Guia de Consulta"
-						action="addConsulta?faces-redirect=true"/>
+						action="addConsulta?faces-redirect=true" />
 					<p:menuitem value="Listagem de Consultas"
-						action="listaConsulta?faces-redirect=true"/>
+						action="listaConsulta?faces-redirect=true" />
 				</p:submenu>
 
 				<p:submenu label="SADT" icon="ui-icon-document">
 					<p:menuitem value="Guia de SADT"
-						action="addSADT?faces-redirect=true"/>
+						action="addSADT?faces-redirect=true" />
 					<p:menuitem value="Listagem de SADT"
 						action="listaSADT?faces-redirect=true" />
 				</p:submenu>

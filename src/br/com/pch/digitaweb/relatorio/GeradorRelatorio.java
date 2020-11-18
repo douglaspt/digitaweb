@@ -1,5 +1,6 @@
 package br.com.pch.digitaweb.relatorio;
 
+import java.io.FileNotFoundException;
 import java.io.OutputStream;
 import java.util.Map;
 
@@ -23,11 +24,11 @@ public class GeradorRelatorio {
 		this.datasourse = datasourse;
 	}
 
-	public void geraPDFParaOutputStream(OutputStream outputStream) {
+	public void geraPDFParaOutputStream(OutputStream outputStream, String pathPDF) throws FileNotFoundException {
 
 		try {
 			JasperPrint jasperPrint = JasperFillManager.fillReport(this.nomeArquivo, this.parametros, datasourse);
-
+			
 			JRExporter exporter = new JRPdfExporter();
 			exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
 			exporter.setParameter(JRExporterParameter.OUTPUT_STREAM, outputStream);
@@ -37,5 +38,7 @@ public class GeradorRelatorio {
 			throw new RuntimeException(e);
 		}
 	}
+	
+
 
 }

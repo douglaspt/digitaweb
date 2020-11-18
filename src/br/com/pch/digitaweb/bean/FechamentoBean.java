@@ -153,7 +153,10 @@ public class FechamentoBean implements Serializable {
 
 		ServletContext scontext = (ServletContext) context.getExternalContext().getContext();
 		HttpServletResponse response = (HttpServletResponse) context.getExternalContext().getResponse();
+		response.setContentType("application/pdf");
+		response.setHeader("Content-disposition", "filename=\"fechamento.pdf\"");
 		String pathJasper = scontext.getRealPath("/jasper/");
+		String pathPDF = scontext.getRealPath("/pdf/");
 
 		JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(consultas);
 		Map<String, Object> parametros = new HashMap<String, Object>();
@@ -173,8 +176,8 @@ public class FechamentoBean implements Serializable {
 		parametros.put("lista3", listaInternacao);
 
 		GeradorRelatorio gerador = new GeradorRelatorio(pathJasper + "fechamento.jasper", parametros, dataSource);
-		gerador.geraPDFParaOutputStream(response.getOutputStream());
-
+		gerador.geraPDFParaOutputStream(response.getOutputStream(), pathPDF);
+		
 		context.responseComplete();
 
 	}
