@@ -1,9 +1,4 @@
-# digitaweb
-Sistema de Digitação Web
+# DIGITA WEB:digitaweb
+Projeto desenvolvido para um cliente para digitação de contas médicas (Faturamento), no qual era fornecido o acesso para clinicas e hospitais enviarem seu faturamento.
 
-
-Copias as lib abaixo para a pasta lib do tomcat
-
-mysql-connector-java-5.1.22-bin.jar
-c3p0-0.9.5.2.jar
-mchange-commons-java-0.2.11.jar
+Tecnologias envolvidas: JAVA, JSF 2, CDI, JPA, Prime Faces e acessando banco de Dados MySQL rodando em servidor TomCat 8.
